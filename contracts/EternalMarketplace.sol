@@ -49,7 +49,7 @@ contract EternalMarketplace is ReentrancyGuard {
         return listingPrice;
     }
 
-    function createEternalItem(
+    function createEternalMarketItem(
         address nftContract , 
         uint256 tokenId, 
         uint256 price) 

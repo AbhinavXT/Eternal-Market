@@ -11,10 +11,11 @@ async function main() {
 
 	let tx = await nft.createEternalNFT()
 	await tx.wait()
-	tx = await nft.createEternalNFT()
-	await tx.wait()
-	tx = await nft.createEternalNFT()
-	await tx.wait()
+	// tx = await nft.createEternalNFT()
+	// await tx.wait()
+	// tx = await nft.createEternalNFT()
+	// await tx.wait()
+
 	//console.log(tx.hash)
 }
 

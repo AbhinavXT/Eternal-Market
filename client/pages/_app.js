@@ -8,8 +8,8 @@ function MyApp({ Component, pageProps }) {
 				<div className='font-extrabold text-3xl'>Eternal Domain</div>
 				<div className='flex gap-x-12 text-xl font-bold'>
 					<Link href='/'>Home</Link>
-					<Link href='/'>Sell NFT</Link>
-					<Link href='/createItem'>My NFT</Link>
+					<Link href='/mint'>Mint</Link>
+					<Link href='/mynft'>My NFT</Link>
 				</div>
 			</div>
 			<Component {...pageProps} />

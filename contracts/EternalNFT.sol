@@ -3,11 +3,12 @@ pragma solidity ^0.8.3;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import { Base64 } from "./libraries/Base64.sol";
 
 import "hardhat/console.sol";
 
-contract EternalNFT is ERC721URIStorage {
+contract EternalNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenId;
     address contractAddress;
@@ -47,7 +48,7 @@ contract EternalNFT is ERC721URIStorage {
 
     //event EternalNFTMinted(address sender, uint256 tokenId);
 
-    constructor(address marketplaceAddress) ERC721("EternalNFT", "ENFT") {
+    constructor(address marketplaceAddress) ERC721("EternalNFT", "ENFT") Ownable() {
         contractAddress = marketplaceAddress;
         collectionName = name();
         collectionSymbol = symbol();
@@ -104,7 +105,7 @@ contract EternalNFT is ERC721URIStorage {
             "data:application/json;base64,", json
         ));
 
-        console.log(finalTokenURI);
+        //console.log(finalTokenURI);
 
         _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenURI);
