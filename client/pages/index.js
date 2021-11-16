@@ -8,12 +8,15 @@ import { nftContractAddress, nftMarketAddress } from '../config.js'
 import NFT from '../utils/EternalNFT.json'
 import Market from '../utils/EternalMarketplace.json'
 
+import Loader from 'react-loader-spinner'
 import { useRouter } from 'next/router'
 
 export default function Home() {
 	const [account, setAccount] = useState('')
 	const [nfts, setNfts] = useState([])
-	//const [loadingState, setLoadingState] = useState(0)
+	const [miningStatus, setMiningStatus] = useState(null)
+	const [loadingState, setLoadingState] = useState(0)
+	const [txError, setTxError] = useState(null)
 
 	const router = useRouter()
 
@@ -101,7 +104,7 @@ export default function Home() {
 					})
 				)
 				setNfts(items)
-				//setLoadingState(1)
+				setLoadingState(1)
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
@@ -135,34 +138,45 @@ export default function Home() {
 			) : (
 				<div className='font-semibold text-lg mt-12'>Connected: {account}</div>
 			)}
-
-			<div className='flex flex-col justify-center items-center'>
-				<div className='flex justify-center'>
-					<div className='px-4'>
-						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 mt-16'>
-							{nfts.map((nft, i) => (
-								<div
-									key={i}
-									className='border shadow-lg rounded-xl overflow-hidden w-60 h-84 border-gray-300'
-								>
-									<img src={nft.image} />
-									<div className='flex justify-between px-2 font-bold text-lg'>
-										<div>Price:</div>
-										<div>{nft.price} ETH</div>
-									</div>
-									<div className='p-4'>
-										<button
-											onClick={() => buyToken(nft.tokenId, nft.itemId)}
-											className='w-full bg-gray-500 text-white font-bold py-2 px-12 rounded'
+			<div>
+				{loadingState === 0 ? (
+					<Loader
+						className='flex justify-center items-center pt-12'
+						type='TailSpin'
+						color='#6B7280'
+						height={40}
+						width={40}
+					/>
+				) : (
+					<div className='flex flex-col justify-center items-center'>
+						<div className='flex justify-center'>
+							<div className='px-4'>
+								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 mt-16'>
+									{nfts.map((nft, i) => (
+										<div
+											key={i}
+											className='border shadow-lg rounded-xl overflow-hidden w-60 h-84 border-gray-300'
 										>
-											Buy
-										</button>
-									</div>
+											<img src={nft.image} />
+											<div className='flex justify-between px-2 font-bold text-lg'>
+												<div>Price:</div>
+												<div>{nft.price} ETH</div>
+											</div>
+											<div className='p-4'>
+												<button
+													onClick={() => buyToken(nft.tokenId, nft.itemId)}
+													className='w-full bg-gray-500 text-white font-bold py-2 px-12 rounded'
+												>
+													Buy
+												</button>
+											</div>
+										</div>
+									))}
 								</div>
-							))}
+							</div>
 						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	)

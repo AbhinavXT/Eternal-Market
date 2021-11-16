@@ -124,7 +124,9 @@ const Home = () => {
 		<div className='flex flex-col justify-center items-center'>
 			<div className='flex justify-center'>
 				<div className='px-4 mt-12'>
-					<div className='text-2xl font-extrabold'>Minted Eternal Items</div>
+					<div className='text-center text-2xl font-extrabold'>
+						Minted Eternal Items
+					</div>
 					{nfts.length === 0 ? (
 						<div className='text-center text-lg font-semibold mt-4 text-gray-600'>
 							No minted items.

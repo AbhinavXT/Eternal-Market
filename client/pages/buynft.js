@@ -127,7 +127,7 @@ const buynft = () => {
 			<div className='flex flex-col font-bold w-full py-8 px-12 gap-y-12'>
 				<div className='text-4xl'>{nft.name}</div>
 				<div className='flex gap-x-4 text-xl'>
-					<div>Seller:</div>
+					<div>Owned by:</div>
 					<div className='text-gray-600'>{tokenData.seller}</div>
 				</div>
 				<div className='flex gap-x-4 text-xl'>

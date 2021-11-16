@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react'
-import { nftContractAddress, nftMarketAddress } from '../config.js'
+import { useState } from 'react'
+import { nftContractAddress } from '../config.js'
 import { ethers } from 'ethers'
-import NFT from '../utils/EternalNFT.json'
 import axios from 'axios'
-// import Market from '../utils/EternalMarketplace.json'
+
+import Loader from 'react-loader-spinner'
+
+import NFT from '../utils/EternalNFT.json'
 
 const mint = () => {
 	const [mintedNFT, setMintedNFT] = useState(null)
+	const [miningStatus, setMiningStatus] = useState(null)
+	const [loadingState, setLoadingState] = useState(0)
+	const [txError, setTxError] = useState(null)
 
 	const mintCharacter = async () => {
 		try {
@@ -21,10 +26,12 @@ const mint = () => {
 					signer
 				)
 
+				setMiningStatus(0)
 				let nftTx = await nftContract.createEternalNFT()
 				console.log('Mining....', nftTx.hash)
 
 				let tx = await nftTx.wait()
+				setLoadingState(1)
 
 				let event = tx.events[0]
 				let value = event.args[2]
@@ -40,6 +47,7 @@ const mint = () => {
 			}
 		} catch (error) {
 			console.log('Error minting character', error)
+			setTxError(error.message)
 		}
 	}
 
@@ -60,18 +68,16 @@ const mint = () => {
 				let data = await axios.get(tokenUri)
 				let meta = data.data
 
+				setMiningStatus(1)
 				setMintedNFT(meta.image)
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
-			console.log('Error minting character', error)
+			console.log(error)
+			setTxError(error)
 		}
 	}
-
-	useEffect(() => {
-		//setMintedNFT(null)
-	})
 
 	return (
 		<div className='flex flex-col items-center pt-32'>
@@ -92,10 +98,29 @@ const mint = () => {
 					<span className='underline'>View Collection on Rarible</span>
 				</a>
 			</div>
-			{mintedNFT !== null && (
+			{loadingState === 0 ? (
+				miningStatus === 0 ? (
+					txError === null ? (
+						<div className='flex flex-col justify-center items-center'>
+							<div className='text-lg font-bold'>Mining your transaction</div>
+							<Loader
+								className='flex justify-center items-center pt-12'
+								type='TailSpin'
+								color='#6B7280'
+								height={40}
+								width={40}
+							/>
+						</div>
+					) : (
+						<div className='text-lg text-red-600 font-semibold'>{txError}</div>
+					)
+				) : (
+					<div></div>
+				)
+			) : (
 				<div>
-					<div className='font-semibold text-lg text-center mb-2'>
-						You have minted
+					<div className='font-semibold text-lg text-center mb-4'>
+						Your Eternal Domain Character
 					</div>
 					<img src={mintedNFT} alt='' className='h-80 w-80' />
 				</div>
