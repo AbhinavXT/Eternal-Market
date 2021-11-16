@@ -42,11 +42,13 @@ describe('EternalNFT Contract', async () => {
 		let txn = await nft.createEternalNFT()
 		let tx = await txn.wait()
 
+		//console.log(tx)
+
 		let event = tx.events[0]
 		let value = event.args[2]
 		tokenId = value.toNumber()
 
-		assert.equal(tokenId, 1)
+		assert.equal(tokenId, 0)
 
 		txn = await nft.createEternalNFT()
 		tx = await txn.wait()
@@ -55,8 +57,20 @@ describe('EternalNFT Contract', async () => {
 		value = event.args[2]
 		tokenId = value.toNumber()
 
-		assert.equal(tokenId, 2)
+		assert.equal(tokenId, 1)
 	})
+
+	it('Should be able to return number of NFTs owned by and address', async () => {
+		let tokensOwned = await nft.getMyEternalNFT()
+
+		assert.equal(tokensOwned.length, 2)
+	})
+
+	// it('Should be able to return tokenURI of NFTs owned by and address', async () => {
+	// 	const data = await nft.getNFTOwnedByAddress()
+
+	// 	console.log(data)
+	// })
 })
 
 describe('EternalMarket', function () {
@@ -84,19 +98,10 @@ describe('EternalMarket', function () {
 		auctionPrice = ethers.utils.parseUnits('1', 'ether')
 	})
 
-	// it('Should get NFT', async () => {
-	// 	await nft.createEternalNFT()
-	// 	await nft.createEternalNFT()
-
-	// 	const tokenUri = await market.getMyEternalNFT(nftContractAddress, 2)
-
-	// 	console.log(tokenUri)
-	// })
-
 	it('Should be able to create an Eternal Item', async () => {
 		await nft.createEternalNFT()
 
-		await market.createEternalMarketItem(nftContractAddress, 1, auctionPrice, {
+		await market.createEternalMarketItem(nftContractAddress, 0, auctionPrice, {
 			value: listingPrice,
 		})
 
@@ -125,11 +130,11 @@ describe('EternalMarket', function () {
 		await nft.createEternalNFT()
 		//console.log('NFT created')
 
-		await market.createEternalMarketItem(nftContractAddress, 1, auctionPrice, {
+		await market.createEternalMarketItem(nftContractAddress, 0, auctionPrice, {
 			value: listingPrice,
 		})
 
-		await market.createEternalMarketItem(nftContractAddress, 2, auctionPrice, {
+		await market.createEternalMarketItem(nftContractAddress, 1, auctionPrice, {
 			value: listingPrice,
 		})
 		//console.log('Eternal Item Created')

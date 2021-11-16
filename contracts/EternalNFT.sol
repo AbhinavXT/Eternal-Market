@@ -16,6 +16,16 @@ contract EternalNFT is ERC721URIStorage, Ownable {
     string public collectionName;
     string public collectionSymbol;
 
+    uint256 private numberOfTokenOwned;
+
+    struct nftItem {
+        uint256 tokenId;
+        address  owner;
+        string tokenUri;
+    }
+
+    mapping(uint256 => nftItem) private idToEternalNFT;
+
     string baseSvg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='black' /><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
 
     string[] first_word = [
@@ -77,7 +87,6 @@ contract EternalNFT is ERC721URIStorage, Ownable {
     }
 
     function createEternalNFT() public returns(uint256) {
-        _tokenId.increment();
         uint256 newItemId = _tokenId.current();
 
         string memory first = pickFirstWord(newItemId);
@@ -111,10 +120,35 @@ contract EternalNFT is ERC721URIStorage, Ownable {
         _setTokenURI(newItemId, finalTokenURI);
         setApprovalForAll(contractAddress, true);
 
-        //emit EternalNFTMinted(msg.sender, newItemId);
-        console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
+        idToEternalNFT[newItemId] = nftItem(newItemId, msg.sender, finalTokenURI);
 
-        //console.log(newItemId);
+        _tokenId.increment();
+
         return newItemId;
+    }
+
+    function getMyEternalNFT() public view returns(nftItem[] memory) {
+        uint totalItemCount = _tokenId.current();
+        uint itemCount = 0;
+        uint currentIndex = 0;
+
+        for (uint i = 0; i < totalItemCount; i++) {
+            if (idToEternalNFT[i].owner == msg.sender) {
+                itemCount += 1;
+            }
+        }
+
+        nftItem[] memory items = new nftItem[](itemCount);
+
+        for (uint i = 0; i < totalItemCount; i++) {
+            if (idToEternalNFT[i].owner == msg.sender) {
+                uint currentId = i;
+                nftItem storage currentItem = idToEternalNFT[currentId];
+                items[currentIndex] = currentItem;
+                currentIndex += 1;
+            }
+        }
+
+        return items;
     }
 }

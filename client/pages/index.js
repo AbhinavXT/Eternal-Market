@@ -12,23 +12,23 @@ export default function Home() {
 	const [nfts, setNfts] = useState([])
 	//const [loadingState, setLoadingState] = useState(0)
 
-	// const checkIfWalletIsConnected = async () => {
-	// 	const { ethereum } = window
+	const checkIfWalletIsConnected = async () => {
+		const { ethereum } = window
 
-	// 	if (!ethereum) {
-	// 		alert('Metamask not detected. Install Metamask')
-	// 		return
-	// 	} else {
-	// 		console.log('Metamask detected')
-	// 	}
+		if (!ethereum) {
+			alert('Metamask not detected. Install Metamask')
+			return
+		} else {
+			console.log('Metamask detected')
+		}
 
-	// 	const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+		const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
 
-	// 	if (accounts.length !== 0) {
-	// 		console.log('Found account', accounts[0])
-	// 		setAccount(accounts[0])
-	// 	}
-	// }
+		if (accounts.length !== 0) {
+			console.log('Found account', accounts[0])
+			setAccount(accounts[0])
+		}
+	}
 
 	const connectWallet = async () => {
 		try {
@@ -101,6 +101,7 @@ export default function Home() {
 	}
 
 	useEffect(() => {
+		checkIfWalletIsConnected()
 		loadEternalNFT()
 	}, [])
 

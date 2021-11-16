@@ -9,14 +9,14 @@ async function main() {
 	await nft.deployed()
 	console.log('nft deployed to:', nft.address)
 
-	const tx1 = await nft.createEternalNFT()
-	await tx1.wait()
+	let tx = await nft.createEternalNFT()
+	await tx.wait()
+	// tx = await nft.createEternalNFT()
+	// await tx.wait()
+	// tx = await nft.createEternalNFT()
+	// await tx.wait()
 
-	// const tx2 = await nft.createEternalNFT()
-	// await tx2.wait()
-
-	// const price = await nftMarket.getLatestPrice()
-	// console.log('price:', price)
+	//console.log(tx.hash)
 }
 
 const runMain = async () => {

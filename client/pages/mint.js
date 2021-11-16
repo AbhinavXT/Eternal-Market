@@ -6,7 +6,7 @@ import axios from 'axios'
 // import Market from '../utils/EternalMarketplace.json'
 
 const mint = () => {
-	const [mintedNFT, setMintedNFT] = useState('')
+	const [mintedNFT, setMintedNFT] = useState(null)
 
 	const mintCharacter = async () => {
 		try {
@@ -69,6 +69,10 @@ const mint = () => {
 		}
 	}
 
+	useEffect(() => {
+		//setMintedNFT(null)
+	})
+
 	return (
 		<div className='flex flex-col items-center pt-32'>
 			<h2 className='text-3xl font-bold mb-20'>
@@ -88,7 +92,7 @@ const mint = () => {
 					<span className='underline'>View Collection on Rarible</span>
 				</a>
 			</div>
-			{mintedNFT && (
+			{mintedNFT !== null && (
 				<div>
 					<div className='font-semibold text-lg text-center mb-2'>
 						You have minted
