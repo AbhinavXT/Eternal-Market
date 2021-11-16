@@ -3,9 +3,7 @@ pragma solidity ^0.8.3;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-//import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 import "hardhat/console.sol";
 
@@ -49,16 +47,6 @@ contract EternalMarketplace is ReentrancyGuard {
         return listingPrice;
     }
 
-    // function getMyEternalNFT(address nftContract, uint256 numOfItems) public view returns(uint256[] memory) {
-    //     uint256[] memory nfts = new uint256[](numOfItems);
-
-    //     for (uint256 i = 0; i < numOfItems; i++) {
-    //         nfts[i] = IERC721Enumerable(nftContract).tokenOfOwnerByIndex(msg.sender, i);
-    //     }
-
-    //     return nfts;
-    // }
-
     function createEternalMarketItem(
         address nftContract , 
         uint256 tokenId, 
@@ -68,7 +56,6 @@ contract EternalMarketplace is ReentrancyGuard {
         require(price > 0, "Price must be greater than 0");
         require(msg.value == listingPrice, "Price must be equal to listing price");
 
-        _itemId.increment();
         uint256 itemId = _itemId.current();
 
         idToEternalItem[itemId] = EternalItem(
@@ -82,6 +69,8 @@ contract EternalMarketplace is ReentrancyGuard {
         );
 
         IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+
+        _itemId.increment();
 
         emit EternalItemCreated(
             itemId,
@@ -158,40 +147,4 @@ contract EternalMarketplace is ReentrancyGuard {
 
         return items;
     }
-
-    function fetchItemsCreated() public view returns (EternalItem[] memory) {
-        uint totalItemCount = _itemId.current();
-        uint itemCount = 0;
-        uint currentIndex = 0;
-
-        for (uint i = 0; i < totalItemCount; i++) {
-            if (idToEternalItem[i].seller == msg.sender) {
-                itemCount += 1;
-            }
-        }
-
-        EternalItem[] memory items = new EternalItem[](itemCount);
-
-        for (uint i = 0; i < totalItemCount; i++) {
-            if (idToEternalItem[i].seller == msg.sender) {
-                uint currentId = i;
-                EternalItem storage currentItem = idToEternalItem[currentId];
-                items[currentIndex] = currentItem;
-                currentIndex += 1;
-            }
-        }
-
-        return items;
-    }
-
-    // function getLatestPrice() public view returns (int) {
-    //     (
-    //         uint80 roundID, 
-    //         int price,
-    //         uint startedAt,
-    //         uint timeStamp,
-    //         uint80 answeredInRound
-    //     ) = priceFeed.latestRoundData();
-    //     return price;
-    // }
 }

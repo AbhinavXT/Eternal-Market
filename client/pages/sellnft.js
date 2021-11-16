@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ethers } from 'ethers'
 import axios from 'axios'
 
@@ -17,6 +17,13 @@ const sellnft = () => {
 	const [owner, setOwner] = useState('')
 
 	const router = useRouter()
+
+	const handleChange = useCallback(
+		(e) => {
+			setPrice(e.target.value)
+		},
+		[setPrice]
+	)
 
 	const getAccount = async () => {
 		try {
@@ -87,6 +94,20 @@ const sellnft = () => {
 
 				let listingPrice = await marketContract.getListingPrice()
 				listingPrice = listingPrice.toString()
+
+				const itemPrice = ethers.utils.parseUnits(price, 'ether')
+				console.log('price', itemPrice)
+
+				let tx = await marketContract.createEternalMarketItem(
+					nftContractAddress,
+					tokenId,
+					price,
+					{ value: listingPrice }
+				)
+				console.log('Mining:', tx.hash)
+				await tx.wait()
+				console.log('Mined!', tx.hash)
+				router.push('/')
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
@@ -142,13 +163,13 @@ const sellnft = () => {
 				<div className='flex flex-col gap-y-4 w-96'>
 					<input
 						type='text'
-						onChange={(e) => setPrice(e.target.value)}
+						onChange={handleChange}
 						name='name'
 						placeholder='Eternal NFT Price'
 						className='h-12 rounded-lg shadow-lg px-4 font-bold bg-gray-100'
 					/>
 					<buttom
-						// onClick={handleClick}
+						onClick={sellItem}
 						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-gray-400 hover:bg-gray-500 font-bold text-lg cursor-pointer'
 					>
 						Sell

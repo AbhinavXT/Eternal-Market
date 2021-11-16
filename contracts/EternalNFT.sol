@@ -114,8 +114,6 @@ contract EternalNFT is ERC721URIStorage, Ownable {
             "data:application/json;base64,", json
         ));
 
-        //console.log(finalTokenURI);
-
         _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenURI);
         setApprovalForAll(contractAddress, true);
