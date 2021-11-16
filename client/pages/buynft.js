@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import axios from 'axios'
 
@@ -9,20 +9,13 @@ import Market from '../utils/EternalMarketplace.json'
 
 import { useRouter } from 'next/router'
 
-const sellnft = () => {
-	const [price, setPrice] = useState('')
+const buynft = () => {
 	const [nft, setNft] = useState({})
 	const [id, setId] = useState(null)
-	const [owner, setOwner] = useState('')
+	const [tokenData, setTokenData] = useState({})
+	// const [owner, setOwner] = useState('')
 
 	const router = useRouter()
-
-	const handleChange = useCallback(
-		(e) => {
-			setPrice(e.target.value)
-		},
-		[setPrice]
-	)
 
 	const getNFTData = async () => {
 		try {
@@ -36,17 +29,32 @@ const sellnft = () => {
 					NFT.abi,
 					signer
 				)
+				const marketContract = new ethers.Contract(
+					nftMarketAddress,
+					Market.abi,
+					signer
+				)
 
-				const tokenId = router.query.id
+				const tokenId = router.query.tokenid
 				setId(tokenId)
 
-				const tokenOwner = await nftContract.ownerOf(tokenId)
-				setOwner(tokenOwner)
+				const itemId = router.query.itemid
 
 				const itemData = await nftContract.tokenURI(tokenId)
 				const data = await axios.get(itemData)
-
 				setNft(data.data)
+
+				const tokenData = await marketContract.fetchEternalItemById(itemId)
+				console.log(tokenData)
+
+				const itemPrice = ethers.utils.formatEther(tokenData[5])
+
+				const EternalToken = {
+					seller: tokenData[3],
+					price: itemPrice,
+				}
+
+				setTokenData(EternalToken)
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
@@ -55,42 +63,32 @@ const sellnft = () => {
 		}
 	}
 
-	const sellItem = async () => {
-		try {
-			const { ethereum } = window
+	const buyEternalNft = async () => {
+		const provider = await new ethers.providers.Web3Provider(ethereum)
+		const signer = provider.getSigner()
 
-			if (ethereum) {
-				const provider = new ethers.providers.Web3Provider(ethereum)
-				const signer = provider.getSigner()
-				const marketContract = new ethers.Contract(
-					nftMarketAddress,
-					Market.abi,
-					signer
-				)
+		const marketContract = new ethers.Contract(
+			nftMarketAddress,
+			Market.abi,
+			signer
+		)
 
-				const tokenId = router.query.id
+		const itemId = router.query.itemid
 
-				let listingPrice = await marketContract.getListingPrice()
-				listingPrice = listingPrice.toString()
+		const tokenData = await marketContract.fetchEternalItemById(itemId)
+		const price = ethers.utils.parseUnits(tokenData[5].toString(), 'wei')
 
-				const itemPrice = ethers.utils.parseUnits(price, 'ether')
-
-				let tx = await marketContract.createEternalMarketItem(
-					nftContractAddress,
-					tokenId,
-					itemPrice,
-					{ value: listingPrice }
-				)
-				console.log('Mining:', tx.hash)
-				await tx.wait()
-				console.log('Mined!', tx.hash)
-				router.push('/')
-			} else {
-				console.log("Ethereum object doesn't exist!")
+		const tx = await marketContract.createEternalItemSale(
+			nftContractAddress,
+			itemId,
+			{
+				value: price,
 			}
-		} catch (error) {
-			console.log('Error minting character', error)
-		}
+		)
+		console.log('Mining:', tx.hash)
+		await tx.wait()
+		console.log('Mined!', tx.hash)
+		router.push('/mynft')
 	}
 
 	useEffect(() => {
@@ -129,26 +127,23 @@ const sellnft = () => {
 			<div className='flex flex-col font-bold w-full py-8 px-12 gap-y-12'>
 				<div className='text-4xl'>{nft.name}</div>
 				<div className='flex gap-x-4 text-xl'>
-					<div>Owner:</div>
-					<div className='text-gray-600'>{owner}</div>
+					<div>Seller:</div>
+					<div className='text-gray-600'>{tokenData.seller}</div>
 				</div>
 				<div className='flex gap-x-4 text-xl'>
 					<div>Contract Address:</div>
 					<div className='text-gray-600'>{nftContractAddress}</div>
 				</div>
+				<div className='flex gap-x-4 text-xl'>
+					<div>Price:</div>
+					<div className='text-gray-600'>{tokenData.price} ETH</div>
+				</div>
 				<div className='flex flex-col gap-y-4 w-96'>
-					<input
-						type='text'
-						onChange={handleChange}
-						name='name'
-						placeholder='Eternal NFT Price'
-						className='h-12 rounded-lg shadow-lg px-4 font-bold bg-gray-100'
-					/>
 					<buttom
-						onClick={sellItem}
+						onClick={buyEternalNft}
 						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-gray-400 hover:bg-gray-500 font-bold text-lg cursor-pointer'
 					>
-						Sell
+						Buy
 					</buttom>
 				</div>
 			</div>
@@ -156,4 +151,4 @@ const sellnft = () => {
 	)
 }
 
-export default sellnft
+export default buynft

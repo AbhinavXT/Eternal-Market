@@ -123,6 +123,10 @@ contract EternalMarketplace is ReentrancyGuard {
         return items;
     }
 
+    function fetchEternalItemById(uint256 itemId) public view returns(EternalItem memory) {
+        return idToEternalItem[itemId];
+    }
+
     function fetchMyEternalItems() public view returns(EternalItem[] memory) {
         uint totalItemCount = _itemId.current();
         uint itemCount = 0;

@@ -42,8 +42,6 @@ describe('EternalNFT Contract', async () => {
 		let txn = await nft.createEternalNFT()
 		let tx = await txn.wait()
 
-		//console.log(tx)
-
 		let event = tx.events[0]
 		let value = event.args[2]
 		tokenId = value.toNumber()
@@ -65,12 +63,6 @@ describe('EternalNFT Contract', async () => {
 
 		assert.equal(tokensOwned.length, 2)
 	})
-
-	// it('Should be able to return tokenURI of NFTs owned by and address', async () => {
-	// 	const data = await nft.getNFTOwnedByAddress()
-
-	// 	console.log(data)
-	// })
 })
 
 describe('EternalMarket', function () {
@@ -107,28 +99,12 @@ describe('EternalMarket', function () {
 
 		let items = await market.fetchEternalItems()
 
-		//console.log('Items length: ', items.length)
-
-		items = await Promise.all(
-			items.map(async (i) => {
-				const tokenUri = await nft.tokenURI(i.tokenId)
-
-				let item = {
-					price: i.price.toString(),
-					tokenId: i.tokenId.toString(),
-					seller: i.seller,
-					owner: i.owner,
-					tokenUri,
-				}
-				return item
-			})
-		)
+		assert.equal(items.length, 1)
 	})
 
 	it('Should be able to execute Eternal Item Sale', async () => {
 		await nft.createEternalNFT()
 		await nft.createEternalNFT()
-		//console.log('NFT created')
 
 		await market.createEternalMarketItem(nftContractAddress, 0, auctionPrice, {
 			value: listingPrice,
@@ -137,7 +113,6 @@ describe('EternalMarket', function () {
 		await market.createEternalMarketItem(nftContractAddress, 1, auctionPrice, {
 			value: listingPrice,
 		})
-		//console.log('Eternal Item Created')
 
 		const [_, buyerAddress] = await ethers.getSigners()
 
@@ -147,22 +122,23 @@ describe('EternalMarket', function () {
 
 		let items = await market.fetchEternalItems()
 
-		//console.log('Items length: ', items.length)
+		assert.equal(items.length, 1)
+	})
 
-		items = await Promise.all(
-			items.map(async (i) => {
-				const tokenUri = await nft.tokenURI(i.tokenId)
+	it('Should be able to get an Eternal by its tokenId', async () => {
+		await nft.createEternalNFT()
+		await nft.createEternalNFT()
 
-				let item = {
-					price: i.price.toString(),
-					tokenId: i.tokenId.toString(),
-					seller: i.seller,
-					owner: i.owner,
-					tokenUri,
-				}
-				return item
-			})
-		)
-		//console.log('Items', items)
+		await market.createEternalMarketItem(nftContractAddress, 0, auctionPrice, {
+			value: listingPrice,
+		})
+
+		await market.createEternalMarketItem(nftContractAddress, 1, auctionPrice, {
+			value: listingPrice,
+		})
+
+		let item = await market.fetchEternalItemById(1)
+
+		assert.equal(item.itemId, 1)
 	})
 })

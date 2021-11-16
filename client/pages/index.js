@@ -8,10 +8,21 @@ import { nftContractAddress, nftMarketAddress } from '../config.js'
 import NFT from '../utils/EternalNFT.json'
 import Market from '../utils/EternalMarketplace.json'
 
+import { useRouter } from 'next/router'
+
 export default function Home() {
 	const [account, setAccount] = useState('')
 	const [nfts, setNfts] = useState([])
 	//const [loadingState, setLoadingState] = useState(0)
+
+	const router = useRouter()
+
+	const buyToken = (tokenId, itemId) => {
+		router.push({
+			pathname: '/buynft',
+			query: { tokenid: tokenId, itemid: itemId },
+		})
+	}
 
 	const checkIfWalletIsConnected = async () => {
 		const { ethereum } = window
@@ -69,8 +80,6 @@ export default function Home() {
 
 				const itemsData = await marketContract.fetchEternalItems()
 
-				console.log('itemsData', itemsData)
-
 				const items = await Promise.all(
 					itemsData.map(async (i) => {
 						const tokenUri = await nftContract.tokenURI(i.tokenId)
@@ -80,6 +89,7 @@ export default function Home() {
 
 						let item = {
 							price,
+							itemId: i.itemId.toNumber(),
 							tokenId: i.tokenId.toNumber(),
 							seller: i.seller,
 							owner: i.owner,
@@ -90,7 +100,6 @@ export default function Home() {
 						return item
 					})
 				)
-				console.log(items.length)
 				setNfts(items)
 				//setLoadingState(1)
 			} else {
@@ -127,25 +136,31 @@ export default function Home() {
 				<div className='font-semibold text-lg mt-12'>Connected: {account}</div>
 			)}
 
-			<div className='flex justify-center'>
-				<div className='px-4' style={{ maxWidth: '1600px' }}>
-					<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4'>
-						{nfts.map((nft, i) => (
-							<div key={i} className='border shadow rounded-xl overflow-hidden'>
-								<img src={nft.image} />
-								<div className='p-4 bg-black'>
-									<p className='text-2xl mb-4 font-bold text-white'>
-										{nft.price} ETH
-									</p>
-									<button
-										className='w-full bg-pink-500 text-white font-bold py-2 px-12 rounded'
-										onClick={() => buyNft(nft)}
-									>
-										Buy
-									</button>
+			<div className='flex flex-col justify-center items-center'>
+				<div className='flex justify-center'>
+					<div className='px-4'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 mt-16'>
+							{nfts.map((nft, i) => (
+								<div
+									key={i}
+									className='border shadow-lg rounded-xl overflow-hidden w-60 h-84 border-gray-300'
+								>
+									<img src={nft.image} />
+									<div className='flex justify-between px-2 font-bold text-lg'>
+										<div>Price:</div>
+										<div>{nft.price} ETH</div>
+									</div>
+									<div className='p-4'>
+										<button
+											onClick={() => buyToken(nft.tokenId, nft.itemId)}
+											className='w-full bg-gray-500 text-white font-bold py-2 px-12 rounded'
+										>
+											Buy
+										</button>
+									</div>
 								</div>
-							</div>
-						))}
+							))}
+						</div>
 					</div>
 				</div>
 			</div>
