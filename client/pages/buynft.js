@@ -113,8 +113,6 @@ const buynft = () => {
 		}
 	}
 
-	//console.log(txError)
-
 	useEffect(() => {
 		if (!router.isReady) return
 		getNFTData()
