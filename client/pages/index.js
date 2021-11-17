@@ -14,7 +14,6 @@ import { useRouter } from 'next/router'
 export default function Home() {
 	const [account, setAccount] = useState('')
 	const [nfts, setNfts] = useState([])
-	const [miningStatus, setMiningStatus] = useState(null)
 	const [loadingState, setLoadingState] = useState(0)
 	const [txError, setTxError] = useState(null)
 
@@ -103,13 +102,14 @@ export default function Home() {
 						return item
 					})
 				)
-				setNfts(items)
 				setLoadingState(1)
+				setNfts(items)
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
 			console.log('Error loading eternal nft', error)
+			setTxError(error.message)
 		}
 	}
 
@@ -140,14 +140,21 @@ export default function Home() {
 			)}
 			<div>
 				{loadingState === 0 ? (
-					<Loader
-						className='flex justify-center items-center pt-12'
-						type='TailSpin'
-						color='#6B7280'
-						height={40}
-						width={40}
-					/>
-				) : (
+					txError === null ? (
+						<div className='flex flex-col justify-center items-center'>
+							<div className='text-lg font-bold mt-16'>Loading Items</div>
+							<Loader
+								className='flex justify-center items-center pt-12'
+								type='TailSpin'
+								color='#6B7280'
+								height={40}
+								width={40}
+							/>
+						</div>
+					) : (
+						<div className='text-lg text-red-600 font-semibold'>{txError}</div>
+					)
+				) : nfts.length ? (
 					<div className='flex flex-col justify-center items-center'>
 						<div className='flex justify-center'>
 							<div className='px-4'>
@@ -175,6 +182,10 @@ export default function Home() {
 								</div>
 							</div>
 						</div>
+					</div>
+				) : (
+					<div className='text-centre font-bold text-xl mt-16'>
+						No Items in Marketplace
 					</div>
 				)}
 			</div>

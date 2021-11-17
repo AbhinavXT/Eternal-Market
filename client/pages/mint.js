@@ -75,7 +75,7 @@ const mint = () => {
 			}
 		} catch (error) {
 			console.log(error)
-			setTxError(error)
+			setTxError(error.message)
 		}
 	}
 
