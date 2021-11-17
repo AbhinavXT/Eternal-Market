@@ -6,12 +6,16 @@ import { nftContractAddress, nftMarketAddress } from '../config.js'
 import NFT from '../utils/EternalNFT.json'
 import Market from '../utils/EternalMarketplace.json'
 import axios from 'axios'
+import Loader from 'react-loader-spinner'
 
 import { useRouter } from 'next/router'
 
 const Home = () => {
 	const [nfts, setNfts] = useState([])
 	const [boughtNfts, setBoughtNfts] = useState([])
+	const [mintLoadingState, setMintLoadingState] = useState(0)
+	const [boughtLoadingState, setBoughtLoadingState] = useState(0)
+	const [txError, setTxError] = useState(null)
 
 	const router = useRouter()
 
@@ -59,12 +63,14 @@ const Home = () => {
 						return item
 					})
 				)
+				setBoughtLoadingState(1)
 				setBoughtNfts(items)
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
 			console.log('Error loading eternal nft', error)
+			setTxError(error.message)
 		}
 	}
 
@@ -103,15 +109,15 @@ const Home = () => {
 						return item
 					})
 				)
-				//
 				const mintedItems = items.filter((item) => item.owner === account)
-				//
+				setMintLoadingState(1)
 				setNfts(mintedItems)
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
 			console.log('Error loading eternal nft', error)
+			setTxError(error.message)
 		}
 	}
 
@@ -127,7 +133,24 @@ const Home = () => {
 					<div className='text-center text-2xl font-extrabold'>
 						Minted Eternal Items
 					</div>
-					{nfts.length === 0 ? (
+					{mintLoadingState === 0 ? (
+						txError === null ? (
+							<div className='flex flex-col justify-center items-center'>
+								<div className='text-lg font-bold mt-16'>Loading Items</div>
+								<Loader
+									className='flex justify-center items-center pt-12'
+									type='TailSpin'
+									color='#6B7280'
+									height={40}
+									width={40}
+								/>
+							</div>
+						) : (
+							<div className='text-lg text-red-600 font-semibold'>
+								{txError}
+							</div>
+						)
+					) : nfts.length === 0 ? (
 						<div className='text-center text-lg font-semibold mt-4 text-gray-600'>
 							No minted items.
 						</div>
@@ -158,7 +181,24 @@ const Home = () => {
 					<div className='text-center text-2xl font-extrabold'>
 						Bought Eternal Items
 					</div>
-					{boughtNfts.length === 0 ? (
+					{boughtLoadingState === 0 ? (
+						txError === null ? (
+							<div className='flex flex-col justify-center items-center'>
+								<div className='text-lg font-bold mt-16'>Loading Items</div>
+								<Loader
+									className='flex justify-center items-center pt-12'
+									type='TailSpin'
+									color='#6B7280'
+									height={40}
+									width={40}
+								/>
+							</div>
+						) : (
+							<div className='text-lg text-red-600 font-semibold'>
+								{txError}
+							</div>
+						)
+					) : boughtNfts.length === 0 ? (
 						<div className='text-lg font-semibold mt-4 text-gray-600'>
 							No bought Eternal items.
 						</div>

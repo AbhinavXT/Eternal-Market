@@ -8,12 +8,18 @@ import NFT from '../utils/EternalNFT.json'
 import Market from '../utils/EternalMarketplace.json'
 
 import { useRouter } from 'next/router'
+import Loader from 'react-loader-spinner'
 
 const sellnft = () => {
 	const [price, setPrice] = useState('')
 	const [nft, setNft] = useState({})
 	const [id, setId] = useState(null)
 	const [owner, setOwner] = useState('')
+	const [loadingStatus, setLoadingStatus] = useState(0)
+	const [dataloadingStatus, setDataLoadingStatus] = useState(0)
+	const [miningStatus, setMiningStatus] = useState(null)
+	const [txError, setTxError] = useState(null)
+	const [fetchError, setFetchError] = useState(null)
 
 	const router = useRouter()
 
@@ -46,12 +52,14 @@ const sellnft = () => {
 				const itemData = await nftContract.tokenURI(tokenId)
 				const data = await axios.get(itemData)
 
+				setDataLoadingStatus(1)
 				setNft(data.data)
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
-			console.log('Error minting character', error)
+			console.log('Error fetching token data', error)
+			setFetchError(error.message)
 		}
 	}
 
@@ -70,6 +78,7 @@ const sellnft = () => {
 
 				const tokenId = router.query.id
 
+				setMiningStatus(0)
 				let listingPrice = await marketContract.getListingPrice()
 				listingPrice = listingPrice.toString()
 
@@ -83,13 +92,19 @@ const sellnft = () => {
 				)
 				console.log('Mining:', tx.hash)
 				await tx.wait()
+
+				setLoadingStatus(1)
+				setMiningStatus(1)
+
 				console.log('Mined!', tx.hash)
+
 				router.push('/')
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
 			console.log('Error minting character', error)
+			setTxError(error.message)
 		}
 	}
 
@@ -97,6 +112,27 @@ const sellnft = () => {
 		if (!router.isReady) return
 		getNFTData()
 	}, [router.isReady])
+
+	if (dataloadingStatus === 0 && !fetchError) {
+		return (
+			<div className='flex flex-col justify-center items-center'>
+				<div className='text-lg font-bold mt-16'>Loading Item Data</div>
+				<Loader
+					className='flex justify-center items-center pt-12'
+					type='TailSpin'
+					color='#6B7280'
+					height={40}
+					width={40}
+				/>
+			</div>
+		)
+	} else if (fetchError) {
+		return (
+			<div className='flex justify-center items-center mt-16 text-lg text-red-600 font-semibold'>
+				{fetchError}
+			</div>
+		)
+	}
 
 	return (
 		<div className='flex px-60 pt-20 gap-x-20'>
@@ -151,6 +187,34 @@ const sellnft = () => {
 						Sell
 					</buttom>
 				</div>
+				{loadingStatus === 0 ? (
+					miningStatus === 0 ? (
+						txError === null ? (
+							<div className='flex flex-col justify-center items-center'>
+								<div className='text-lg font-bold mt-16'>
+									Mining Transaction
+								</div>
+								<Loader
+									className='flex justify-center items-center pt-12'
+									type='TailSpin'
+									color='#6B7280'
+									height={40}
+									width={40}
+								/>
+							</div>
+						) : (
+							<div className='justify-center items-center text-lg text-red-600 font-semibold'>
+								{txError}
+							</div>
+						)
+					) : (
+						<div></div>
+					)
+				) : (
+					<div className='justify-center items-center text-lg font-semibold'>
+						Transaction is successful. Rediricting to Homepage
+					</div>
+				)}
 			</div>
 		</div>
 	)
