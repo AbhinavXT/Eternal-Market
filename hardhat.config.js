@@ -2,7 +2,7 @@ require('@nomiclabs/hardhat-waffle')
 require('dotenv').config()
 
 module.exports = {
-	solidity: '0.8.4',
+	solidity: '0.8.3',
 	networks: {
 		rinkeby: {
 			url: process.env.INFURA_RINKEBY_URL,

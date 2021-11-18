@@ -8,15 +8,6 @@ async function main() {
 	const nft = await NFT.deploy(nftMarket.address)
 	await nft.deployed()
 	console.log('nft deployed to:', nft.address)
-
-	let tx = await nft.createEternalNFT()
-	await tx.wait()
-	// tx = await nft.createEternalNFT()
-	// await tx.wait()
-	// tx = await nft.createEternalNFT()
-	// await tx.wait()
-
-	//console.log(tx.hash)
 }
 
 const runMain = async () => {
