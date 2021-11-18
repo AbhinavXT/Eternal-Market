@@ -9,11 +9,10 @@ function MyApp({ Component, pageProps }) {
 	// Checks if wallet is connected
 	const checkIfWalletIsConnected = async () => {
 		const { ethereum } = window
-		if (!ethereum) {
-			alert('Metamask not detected install Metamask')
-			return
-		} else {
+		if (ethereum) {
 			console.log('Got the ethereum obejct: ', ethereum)
+		} else {
+			console.log('Connect your wallet first!')
 		}
 
 		const accounts = await ethereum.request({ method: 'eth_accounts' })
@@ -98,16 +97,13 @@ function MyApp({ Component, pageProps }) {
 						<Component {...pageProps} />
 					</div>
 				))}
-			{!correctNetwork && currentAccount !== '' ? (
+			{!correctNetwork && (
 				<div className='flex flex-col justify-center items-center pt-40 font-bold text-2xl gap-y-3'>
 					<div>----------------------------------------</div>
-					<div>Wrong Network</div>
 					<div>Please connect to the Rinkeby Testnet</div>
 					<div>and reload the page</div>
 					<div>----------------------------------------</div>
 				</div>
-			) : (
-				<div></div>
 			)}
 		</div>
 	)
