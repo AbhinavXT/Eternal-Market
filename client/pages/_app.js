@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
 		if (ethereum) {
 			console.log('Got the ethereum obejct: ', ethereum)
 		} else {
-			console.log('Connect your wallet first!')
+			console.log('No Wallet found. Connect Wallet')
 		}
 
 		const accounts = await ethereum.request({ method: 'eth_accounts' })
@@ -71,33 +71,31 @@ function MyApp({ Component, pageProps }) {
 
 	return (
 		<div className='bg-gray-300 h-full min-h-screen'>
-			{correctNetwork &&
-				(currentAccount === '' ? (
-					<div className='flex flex-col justify-center items-center pt-20 gap-y-10'>
-						<div className='text-3xl font-extrabold'>
-							Welcome to Eternal Domain
-						</div>
-						<button
-							className='text-2xl font-bold py-3 px-12 bg-gray-500 hover:bg-gray-400 transition-colors duration-300 shadow-lg rounded-lg mb-10'
-							onClick={connectWallet}
-						>
-							Connect Wallet
-						</button>
+			{currentAccount === '' ? (
+				<div className='flex flex-col justify-center items-center pt-20 gap-y-10'>
+					<div className='text-3xl font-extrabold'>
+						Welcome to Eternal Domain
 					</div>
-				) : (
-					<div>
-						<div className='flex justify-between items-baseline pt-8 px-20'>
-							<div className='font-extrabold text-3xl'>Eternal Domain</div>
-							<div className='flex gap-x-12 text-xl font-bold'>
-								<Link href='/'>Home</Link>
-								<Link href='/mint'>Mint</Link>
-								<Link href='/mynft'>My NFT</Link>
-							</div>
+					<button
+						className='text-2xl font-bold py-3 px-12 bg-gray-500 hover:bg-gray-400 transition-colors duration-300 shadow-lg rounded-lg mb-10'
+						onClick={connectWallet}
+					>
+						Connect Wallet
+					</button>
+				</div>
+			) : correctNetwork ? (
+				<div>
+					<div className='flex justify-between items-baseline pt-8 px-20'>
+						<div className='font-extrabold text-3xl'>Eternal Domain</div>
+						<div className='flex gap-x-12 text-xl font-bold'>
+							<Link href='/'>Home</Link>
+							<Link href='/mint'>Mint</Link>
+							<Link href='/mynft'>My NFT</Link>
 						</div>
-						<Component {...pageProps} />
 					</div>
-				))}
-			{!correctNetwork && (
+					<Component {...pageProps} />
+				</div>
+			) : (
 				<div className='flex flex-col justify-center items-center pt-40 font-bold text-2xl gap-y-3'>
 					<div>----------------------------------------</div>
 					<div>Please connect to the Rinkeby Testnet</div>
