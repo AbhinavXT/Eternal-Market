@@ -21,6 +21,7 @@ const Home = () => {
 
 	let account
 
+	// Routes to sellnft page
 	const sellToken = (tokenId) => {
 		router.push({
 			pathname: '/sellnft',
@@ -28,6 +29,7 @@ const Home = () => {
 		})
 	}
 
+	// Gets data of NFTs bought from the marketplace
 	const loadBoughtNFT = async () => {
 		try {
 			const { ethereum } = window
@@ -74,6 +76,7 @@ const Home = () => {
 		}
 	}
 
+	// Gets data of NFTs minted by the user
 	const loadMyEternalNFT = async () => {
 		try {
 			const { ethereum } = window
@@ -88,7 +91,6 @@ const Home = () => {
 				)
 
 				account = await signer.getAddress()
-				console.log('account', account)
 
 				const itemsData = await nftContract.getMyEternalNFT()
 

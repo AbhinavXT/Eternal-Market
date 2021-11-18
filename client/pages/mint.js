@@ -13,6 +13,7 @@ const mint = () => {
 	const [loadingState, setLoadingState] = useState(0)
 	const [txError, setTxError] = useState(null)
 
+	// Creates transaction to mint NFT on clicking Mint Character button
 	const mintCharacter = async () => {
 		try {
 			const { ethereum } = window
@@ -40,7 +41,7 @@ const mint = () => {
 				console.log(
 					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTx.hash}`
 				)
-				console.log('Token ID:', tokenId)
+
 				getMintedNFT(tokenId)
 			} else {
 				console.log("Ethereum object doesn't exist!")
@@ -51,6 +52,7 @@ const mint = () => {
 		}
 	}
 
+	// Gets the minted NFT data
 	const getMintedNFT = async (tokenId) => {
 		try {
 			const { ethereum } = window
@@ -102,7 +104,9 @@ const mint = () => {
 				miningStatus === 0 ? (
 					txError === null ? (
 						<div className='flex flex-col justify-center items-center'>
-							<div className='text-lg font-bold'>Mining your transaction</div>
+							<div className='text-lg font-bold'>
+								Processing your transaction
+							</div>
 							<Loader
 								className='flex justify-center items-center pt-12'
 								type='TailSpin'

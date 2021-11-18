@@ -6,6 +6,7 @@ function MyApp({ Component, pageProps }) {
 	const [currentAccount, setCurrentAccount] = useState('')
 	const [correctNetwork, setCorrectNetwork] = useState(false)
 
+	// Checks if wallet is connected
 	const checkIfWalletIsConnected = async () => {
 		const { ethereum } = window
 		if (ethereum) {
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps }) {
 		}
 	}
 
+	// Calls Metamask to connect wallet on clicking Connect Wallet button
 	const connectWallet = async () => {
 		try {
 			const { ethereum } = window
@@ -49,6 +51,7 @@ function MyApp({ Component, pageProps }) {
 		}
 	}
 
+	// Checks if wallet is connected to the correct network
 	const checkCorrectNetwork = async () => {
 		const { ethereum } = window
 		let chainId = await ethereum.request({ method: 'eth_chainId' })

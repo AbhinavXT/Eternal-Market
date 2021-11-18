@@ -19,6 +19,7 @@ export default function Home() {
 
 	const router = useRouter()
 
+	// Routes to the buynft page
 	const buyToken = (tokenId, itemId) => {
 		router.push({
 			pathname: '/buynft',
@@ -26,6 +27,7 @@ export default function Home() {
 		})
 	}
 
+	// Fetches the connected account address
 	const getAccount = async () => {
 		try {
 			const { ethereum } = window
@@ -44,6 +46,7 @@ export default function Home() {
 		}
 	}
 
+	// Fetches the marketplace items put for sale
 	const loadEternalNFT = async () => {
 		try {
 			const { ethereum } = window
@@ -103,7 +106,7 @@ export default function Home() {
 	return (
 		<div className='flex flex-col justify-center items-center'>
 			<Head>
-				<title>Eternal NFT</title>
+				<title>Eternal Domain</title>
 				<meta name='description' content='Eternal Domain' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>

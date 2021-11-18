@@ -22,6 +22,7 @@ const buynft = () => {
 
 	const router = useRouter()
 
+	// Fetch NFT data to display
 	const getNFTData = async () => {
 		try {
 			const { ethereum } = window
@@ -68,6 +69,7 @@ const buynft = () => {
 		}
 	}
 
+	// Creates transaction to buy NFT from the marketplace
 	const buyEternalNft = async () => {
 		try {
 			const { ethereum } = window
@@ -146,12 +148,12 @@ const buynft = () => {
 					<img src={nft.image} alt='' className='h-80 rounded-xl shadow-xl' />
 				</div>
 				<div>
-					<div className='flex justify-center items-center h-16 w-full text-lg rounded-lg shadow-lg'>
+					<div className='flex justify-center items-center bg-gray-200 h-16 w-full text-lg rounded-lg shadow-lg'>
 						{nft.description}
 					</div>
 				</div>
 				<div>
-					<div className='flex flex-col gap-y-2 w-full px-4 py-4 font-bold rounded-lg shadow-lg'>
+					<div className='flex flex-col gap-y-2 w-full px-4 py-4 bg-gray-200 font-bold rounded-lg shadow-lg'>
 						<div className='flex justify-between'>
 							<div>TokenId:</div>
 							<div>{id}</div>
@@ -194,7 +196,7 @@ const buynft = () => {
 						txError === null ? (
 							<div className='flex flex-col justify-center items-center'>
 								<div className='text-lg font-bold mt-16'>
-									Mining Transaction
+									Processing Your Transaction
 								</div>
 								<Loader
 									className='flex justify-center items-center pt-12'
