@@ -209,17 +209,9 @@ const Home = () => {
 							{boughtNfts.map((boughtNft, i) => (
 								<div
 									key={i}
-									className='border shadow-lg rounded-xl overflow-hidden w-60 h-80 border-gray-300'
+									className='border shadow-lg rounded-xl overflow-hidden w-56 h-56 border-gray-300'
 								>
 									<img src={boughtNft.image} />
-									<div className='p-4'>
-										<button
-											className='w-full bg-gray-500 text-white font-bold py-2 px-12 rounded'
-											onClick={() => sellToken(boughtNft.tokenId)}
-										>
-											Sell
-										</button>
-									</div>
 								</div>
 							))}
 						</div>
