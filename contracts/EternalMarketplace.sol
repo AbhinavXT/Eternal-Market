@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.3;
+pragma solidity 0.8.3;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -109,7 +109,8 @@ contract EternalMarketplace is ReentrancyGuard {
 
         require(msg.value == price, "Please submit the asked price in order to complete the purchase");
 
-        idToEternalItem[itemId].seller.transfer(msg.value);
+        (bool success, ) = idToEternalItem[itemId].seller.call{value: msg.value}("");
+        require(success, "Transfer failed");
 
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
 
