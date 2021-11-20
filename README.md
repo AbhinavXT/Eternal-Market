@@ -1,4 +1,4 @@
-# Final project - Eternal Domain Marketplace
+# Eternal Domain Marketplace
 
 ## Table of Contents:
   - [Deployed Website url](#deployed-website-url)
