@@ -17,25 +17,25 @@
     - [For 'Nonce too High' Error](#for-nonce-too-high-error)
 
 ## Deployed Website url
+https://eternal-market.vercel.app/
 
 ## Screencast link
-
 https://youtu.be/DE216KMBUMg
 
 ## Project Description
 
 **Eternal Domain** is a marketplace where users can buy, sell and mint **Eternal Characters**, which are ERC-721 standard (NFT) tokens.
 
-Eternal Characters are the residants of **Eternal Domain** world. They consists of 3 main characterstics, **Area of Control, Weapon and Rank**.
+Eternal Characters are the residents of **Eternal Domain** world. They consists of 3 main characteristics, **Area of Control, Weapon and Rank**.
 
-- **Area of Contral -** Fire, Wind, Wave, Earth, Light, Shadow, Thunder, Space, Time, Gravity, Ice
+- **Area of Control -** Fire, Wind, Wave, Earth, Light, Shadow, Thunder, Space, Time, Gravity, Ice
 - **Weapon -** Sword, Spear, Shield, Hammer, Saber, Axe, Bow, Staff, Wand, Fist, Dagger, Scythe, Mace, Blade, Katana
 - **Rank -** Lord, King, Emperor, Venerable, Ancestor, Saint, God
 
 ## Workflow
 
 1. Enter the dApp and connect the wallet to rinkeby network.
-2. After enterning the dApp the user can:
+2. After entering the dApp the user can:
    1. **Buy Characters**
       - Go to the **Home** page and click on the **Buy** button under the item which user want to buy.
       - User will be redirected to the **BuyNFT** page which shows the price and other details about the item.
@@ -51,7 +51,7 @@ Eternal Characters are the residants of **Eternal Domain** world. They consists 
    3. **Sell Characters**
       - Go to the **My NFT** page and click on the **Sell** button under the minted item which user want to sell.
       - User will be redirected to the **SellNFT** page where user can enter the price for the item.
-      - After enterning the desired price, click on the **Sell** button to list the item in the market place.
+      - After entering the desired price, click on the **Sell** button to list the item in the market place.
       - Metamask pops up and asks to confirm the transaction for the listing price.
       - After the transaction is successfully processed user is redirected to the **Home** page.
       - The item will be listed in the marketplace to be bought for the price entered by the user.
@@ -159,7 +159,7 @@ npm run dev
 npx hardhat node
 ```
 
-2. This should create a local network with 19 accounts. Keep it runnning, and in another terminal run:
+2. This should create a local network with 19 accounts. Keep it running, and in another terminal run:
 
 ```
 npx hardhat run scripts/deploy.js --network localhost
@@ -173,7 +173,7 @@ nftMarket contract deployed to: 'EternalMarketplace contract address'
 nft contract deployed to: 'EternalNFT contract address'
 ```
 
-4. Copy these addresses and paste them in the [**config.js**](https://github.com/AbhinavXT/Eternal-Market/blob/main/client/config.js) file inside the client floder, in place of current addresses.
+4. Copy these addresses and paste them in the [**config.js**](https://github.com/AbhinavXT/Eternal-Market/blob/main/client/config.js) file inside the client folder, in place of current addresses.
 
 ```
 export const nftContractAddress = 'EternalMarketplace contract address'
@@ -189,7 +189,7 @@ export const nftMarketAddress = 'EternalNFT contract address''
    4. For better testing of the transfer of tokens and transactions import at least 2 accounts\*\_
    5. For changing chainId and other possible errors see [Troubleshooting](#troubleshooting)
 
-6. Now run the frontend locally in aother terminal using command:
+6. Now run the frontend locally in another terminal using command:
 
 ```
 cd client
@@ -220,4 +220,4 @@ const devChainId = 1337
 
 ### For 'Nonce too High' Error
 
-While testing the dApp on aginst a local instance, if you get the **Nonce too high** error in the hardhat node terminal or the UI does not show processing your transaction after confirming a transaction, try **resetting your metamask account**. This can be done by going to **Settings > Advanced > Reset Account** in Metamask.
+While testing the dApp on against a local instance, if you get the **Nonce too high** error in the hardhat node terminal or the UI does not show processing your transaction after confirming a transaction, try **resetting your metamask account**. This can be done by going to **Settings > Advanced > Reset Account** in Metamask.
