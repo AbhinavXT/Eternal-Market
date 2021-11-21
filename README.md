@@ -21,8 +21,7 @@
 https://eternal-market.vercel.app/
 
 ## Screencast link
-
-https://youtu.be/DE216KMBUMg
+https://www.youtube.com/watch?v=M-W-DW6L29E
 
 ## Project Description
 
