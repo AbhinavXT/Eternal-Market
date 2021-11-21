@@ -5,7 +5,7 @@ module.exports = {
 	solidity: '0.8.3',
 	networks: {
 		hardhat: {
-			chainId: 1440,
+			chainId: 1337,
 		},
 		rinkeby: {
 			url: process.env.INFURA_RINKEBY_URL || '',
