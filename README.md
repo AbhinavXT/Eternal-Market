@@ -173,7 +173,7 @@ nftMarket contract deployed to: 'EternalMarketplace contract address'
 nft contract deployed to: 'EternalNFT contract address'
 ```
 
-4. Copy these addresses and paste them in the [**config.js**](https://github.com/AbhinavXT/blockchain-developer-bootcamp-final-project/blob/main/client/config.js) file inside the client floder, in place of current addresses.
+4. Copy these addresses and paste them in the [**config.js**](https://github.com/AbhinavXT/Eternal-Market/blob/main/client/config.js) file inside the client floder, in place of current addresses.
 
 ```
 export const nftContractAddress = 'EternalMarketplace contract address'
@@ -204,7 +204,7 @@ After this you can run and test the dApp locally in your web browser.
 
 The default chainId for network localhost8545 is 1337. To change the chainId, the user should follow these steps :
 
-1. Change the chainId in networks under hardhat in [hardhat.config.js](https://github.com/AbhinavXT/blockchain-developer-bootcamp-final-project/blob/main/hardhat.config.js) file.
+1. Change the chainId in networks under hardhat in [hardhat.config.js](https://github.com/AbhinavXT/Eternal-Market/blob/main/hardhat.config.js) file.
 
 ```
 hardhat: {
@@ -212,7 +212,7 @@ hardhat: {
 }
 ```
 
-2. After this the user needs to change the chainId in the [\_app.js](https://github.com/AbhinavXT/blockchain-developer-bootcamp-final-project/blob/main/client/pages/_app.js) file on line 42 and 67 under the functions **connectWallet()** and **checkCorrectNetwork()** respectively.
+2. After this the user needs to change the chainId in the [\_app.js](https://github.com/AbhinavXT/Eternal-Market/blob/main/client/pages/_app.js) file on line 42 and 67 under the functions **connectWallet()** and **checkCorrectNetwork()** respectively.
 
 ```
 const devChainId = 1337
