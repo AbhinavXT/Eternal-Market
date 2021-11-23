@@ -118,9 +118,9 @@ blockchain-developer-bootcamp-final-project
 1. Clone the project repository on your local machine
 
 ```
- git clone https://github.com/AbhinavXT/blockchain-developer-bootcamp-final-project.git
+ git clone https://github.com/AbhinavXT/Eternal-Market.git
 
- cd blockchain-developer-bootcamp-final-project
+ cd Eternal-Market
 ```
 
 2. Installing dependencies
