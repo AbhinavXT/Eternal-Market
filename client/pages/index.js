@@ -111,7 +111,7 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<div className='font-semibold text-lg mt-12'>Connected: {account}</div>
+			<div className='font-bold text-4xl mt-12'>Eternal Marketplace</div>
 
 			<div>
 				{loadingState === 0 ? (
@@ -133,24 +133,53 @@ export default function Home() {
 					<div className='flex flex-col justify-center items-center'>
 						<div className='flex justify-center'>
 							<div className='px-4'>
-								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 mt-16'>
+								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16'>
 									{nfts.map((nft, i) => (
 										<div
 											key={i}
-											className='border shadow-lg rounded-xl overflow-hidden w-60 h-84 border-gray-300'
+											onClick={() => buyToken(nft.tokenId, nft.itemId)}
+											className='border shadow-lg rounded-xl overflow-hidden w-60 h-84 border-gray-300 cursor-pointer hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
 										>
 											<img src={nft.image} />
-											<div className='flex justify-between px-2 font-bold text-lg'>
-												<div>Price:</div>
-												<div>{nft.price} ETH</div>
-											</div>
-											<div className='p-4'>
-												<button
-													onClick={() => buyToken(nft.tokenId, nft.itemId)}
-													className='w-full bg-gray-500 text-white font-bold py-2 px-12 rounded'
-												>
-													Buy
-												</button>
+											<div className='flex justify-between p-4 font-bold text-lg'>
+												<div>#{nft.tokenId}</div>
+												<div className='flex items-center gap-x-1'>
+													<div>
+														<svg
+															width='18'
+															height='18'
+															viewBox='0 0 256 417'
+															xmlns='http://www.w3.org/2000/svg'
+															preserveAspectRatio='xMidYMid'
+														>
+															<path
+																fill='#343434'
+																d='M127.961 0l-2.795 9.5v275.668l2.795 2.79 127.962-75.638z'
+															/>
+															<path
+																fill='#8C8C8C'
+																d='M127.962 0L0 212.32l127.962 75.639V154.158z'
+															/>
+															<path
+																fill='#3C3C3B'
+																d='M127.961 312.187l-1.575 1.92v98.199l1.575 4.6L256 236.587z'
+															/>
+															<path
+																fill='#8C8C8C'
+																d='M127.962 416.905v-104.72L0 236.585z'
+															/>
+															<path
+																fill='#141414'
+																d='M127.961 287.958l127.96-75.637-127.96-58.162z'
+															/>
+															<path
+																fill='#393939'
+																d='M0 212.32l127.96 75.638v-133.8z'
+															/>
+														</svg>
+													</div>
+													<div>{nft.price.split('.')[0]}</div>
+												</div>
 											</div>
 										</div>
 									))}

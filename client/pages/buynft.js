@@ -148,12 +148,12 @@ const buynft = () => {
 					<img src={nft.image} alt='' className='h-80 rounded-xl shadow-xl' />
 				</div>
 				<div>
-					<div className='flex justify-center items-center bg-gray-200 h-16 w-full text-lg rounded-lg shadow-lg'>
+					<div className='flex justify-center items-center bg-white h-16 w-full text-lg rounded-lg shadow-xl'>
 						{nft.description}
 					</div>
 				</div>
 				<div>
-					<div className='flex flex-col gap-y-2 w-full px-4 py-4 bg-gray-200 font-bold rounded-lg shadow-lg'>
+					<div className='flex flex-col gap-y-2 w-full px-4 py-4 bg-white font-bold rounded-lg shadow-xl'>
 						<div className='flex justify-between'>
 							<div>TokenId:</div>
 							<div>{id}</div>
@@ -186,7 +186,7 @@ const buynft = () => {
 				<div className='flex flex-col gap-y-4 w-96'>
 					<buttom
 						onClick={buyEternalNft}
-						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-gray-400 hover:bg-gray-500 font-bold text-lg cursor-pointer'
+						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-gray-800 text-gray-100 font-bold text-lg cursor-pointer hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
 					>
 						Buy
 					</buttom>

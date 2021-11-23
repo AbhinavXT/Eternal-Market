@@ -143,12 +143,12 @@ const sellnft = () => {
 					<img src={nft.image} alt='' className='h-80 rounded-xl shadow-xl' />
 				</div>
 				<div>
-					<div className='flex justify-center items-center bg-gray-200  h-16 w-full text-lg rounded-lg shadow-lg'>
+					<div className='flex justify-center items-center bg-white  h-16 w-full text-lg rounded-lg shadow-lg'>
 						{nft.description}
 					</div>
 				</div>
 				<div>
-					<div className='flex flex-col gap-y-2 w-full bg-gray-200  px-4 py-4 font-bold rounded-lg shadow-lg'>
+					<div className='flex flex-col gap-y-2 w-full bg-white  px-4 py-4 font-bold rounded-lg shadow-lg'>
 						<div className='flex justify-between'>
 							<div>TokenId:</div>
 							<div>{id}</div>
@@ -180,11 +180,11 @@ const sellnft = () => {
 						onChange={handleChange}
 						name='name'
 						placeholder='Eternal NFT Price'
-						className='h-12 rounded-lg shadow-lg px-4 font-bold bg-gray-100'
+						className='h-12 rounded-lg shadow-lg px-4 font-bold bg-white focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent'
 					/>
 					<buttom
 						onClick={sellItem}
-						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-gray-400 hover:bg-gray-500 font-bold text-lg cursor-pointer'
+						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-gray-800 text-gray-100 font-bold text-lg cursor-pointer hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
 					>
 						Sell
 					</buttom>

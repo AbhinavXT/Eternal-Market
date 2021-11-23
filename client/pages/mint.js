@@ -87,17 +87,18 @@ const mint = () => {
 				Mint your Eternal Domain NFT!
 			</h2>
 			<button
-				className='text-2xl font-bold py-3 px-12 bg-gray-400 hover:bg-gray-500 transition-colors duration-300 shadow-lg rounded-lg mb-10'
+				className='text-2xl font-bold py-3 px-12 bg-gray-800 text-gray-200 shadow-xl rounded-lg mb-10 hover:scale-105 transition duration-500 ease-in-out'
 				onClick={mintCharacter}
 			>
 				Mint Character
 			</button>
-			<div className='text-xl font-semibold mb-32'>
+			<div className='text-xl font-semibold mb-24'>
 				<a
-					href={`https://rinkeby.rarible.com/collection/${nftContractAddress}`}
+					href='https://testnets.opensea.io/collection/eternalnft-k6ggw4jtlh'
 					target='_blank'
 				>
-					<span className='underline'>View Collection on Rarible</span>
+					<span>🌊</span>{' '}
+					<span className='underline'>View Collection on OpenSea</span>
 				</a>
 			</div>
 			{loadingState === 0 ? (
@@ -126,7 +127,11 @@ const mint = () => {
 					<div className='font-semibold text-lg text-center mb-4'>
 						Your Eternal Domain Character
 					</div>
-					<img src={mintedNFT} alt='' className='h-80 w-80' />
+					<img
+						src={mintedNFT}
+						alt=''
+						className='h-80 w-80 rounded-lg shadow-xl hover:scale-105 transition duration-500 ease-in-out'
+					/>
 				</div>
 			)}
 		</div>

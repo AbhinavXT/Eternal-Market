@@ -157,7 +157,7 @@ const Home = () => {
 							No minted items.
 						</div>
 					) : (
-						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 mt-4'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4 mt-4'>
 							{nfts.map((nft, i) => (
 								<div
 									key={i}
@@ -166,7 +166,7 @@ const Home = () => {
 									<img src={nft.image} />
 									<div className='p-4'>
 										<button
-											className='w-full bg-gray-500 text-white font-bold py-2 px-12 rounded'
+											className='w-full bg-gray-800 text-white font-bold py-2 px-12 rounded-lg hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
 											onClick={() => sellToken(nft.id)}
 										>
 											Sell
@@ -205,13 +205,16 @@ const Home = () => {
 							No bought Eternal items.
 						</div>
 					) : (
-						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 mt-4'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4 mt-4 pb-8'>
 							{boughtNfts.map((boughtNft, i) => (
 								<div
 									key={i}
-									className='border shadow-lg rounded-xl overflow-hidden w-56 h-56 border-gray-300'
+									className='border shadow-lg rounded-xl overflow-hidden w-60 h-72 border-gray-300 hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
 								>
 									<img src={boughtNft.image} />
+									<div className='flex items-center justify-center text-xl font-bold py-2 px-4'>
+										<div>#{boughtNft.tokenId}</div>
+									</div>
 								</div>
 							))}
 						</div>
