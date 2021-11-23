@@ -213,7 +213,7 @@ hardhat: {
 }
 ```
 
-2. After this the user needs to change the chainId in the [\_app.js](https://github.com/AbhinavXT/Eternal-Market/blob/main/client/pages/_app.js) file on line 42 and 67 under the functions **connectWallet()** and **checkCorrectNetwork()** respectively.
+2. After this the user needs to change the chainId in the [\_app.js](https://github.com/AbhinavXT/Eternal-Market/blob/main/client/pages/_app.js) file on line 61 and 86 under the functions **connectWallet()** and **checkCorrectNetwork()** respectively.
 
 ```
 const devChainId = 1337
