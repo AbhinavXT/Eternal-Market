@@ -178,7 +178,7 @@ export default function Home() {
 															/>
 														</svg>
 													</div>
-													<div>{nft.price.split('.')[0]}</div>
+													<div>{nft.price}</div>
 												</div>
 											</div>
 										</div>
