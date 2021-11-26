@@ -94,7 +94,7 @@ const mint = () => {
 			</button>
 			<div className='text-xl font-semibold mb-24'>
 				<a
-					href='https://testnets.opensea.io/collection/eternalnft-k6ggw4jtlh'
+					href='https://testnets.opensea.io/collection/eternalnft-chclkdap4b'
 					target='_blank'
 				>
 					<span>🌊</span>{' '}
