@@ -1,6 +1,9 @@
 # Eternal Domain Marketplace
 
 ## Table of Contents:
+
+- [Eternal Domain Marketplace](#eternal-domain-marketplace)
+  - [Table of Contents:](#table-of-contents)
   - [Deployed Website url](#deployed-website-url)
   - [Screencast link](#screencast-link)
   - [Project Description](#project-description)
@@ -11,7 +14,10 @@
     - [Cloning and installing dependencies](#cloning-and-installing-dependencies)
     - [Testing Contracts](#testing-contracts)
     - [Running the frontend](#running-the-frontend)
+  - [Auto-Funding](#auto-funding)
     - [Deploying and running against a local instance](#deploying-and-running-against-a-local-instance)
+  - [Run](#run)
+    - [VRF Get a random number](#vrf-get-a-random-number)
   - [Troubleshooting](#troubleshooting)
     - [For custom chainId](#for-custom-chainid)
     - [For 'Nonce too High' Error](#for-nonce-too-high-error)
@@ -21,6 +27,7 @@
 https://eternal-market.vercel.app/
 
 ## Screencast link
+
 https://youtu.be/D9Itp9Ttwtw
 
 ## Project Description
@@ -218,6 +225,7 @@ After this you can run and test the dApp locally in your web browser.
 The deployment output will give you the contract addresses as they are deployed. You can then use these contract addresses in conjunction with Hardhat tasks to perform operations on each contract
 
 ### VRF Get a random number
+
 The VRFConsumer contract has two tasks, one to request a random number, and one to read the result of the random number request. This contract needs to be funded with link first:
 
 ```bash
