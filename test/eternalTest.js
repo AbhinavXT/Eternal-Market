@@ -6,6 +6,8 @@ describe('EternalNFT Contract', async () => {
 	let marketContractAddress
 	let nftContractAddress
 	let tokenId
+	let linkTokenAddress
+	let vrfCoordinatorAddress
 
 	// Deploys the EternalNFT contract and the EternalMarket contract before each test
 	beforeEach('Setup Contract', async () => {

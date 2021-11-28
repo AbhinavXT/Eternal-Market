@@ -3,7 +3,7 @@ pragma solidity 0.8.3;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import { Base64 } from "./libraries/Base64.sol";
 
 
@@ -13,7 +13,7 @@ import { Base64 } from "./libraries/Base64.sol";
 /// @dev Inherits from ERC721URIStorage contract for ERC-721 token functionality.
 /// @dev Uses Counters library for tracking tokenId of the minted tokens.
 /// @dev Uses Base64 library for for encoding the tokenURI.
-contract EternalNFT is ERC721URIStorage, Ownable {
+contract EternalNFT is ERC721URIStorage,VRFConsumerBase {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenId;
     address contractAddress;
@@ -22,6 +22,10 @@ contract EternalNFT is ERC721URIStorage, Ownable {
     string public collectionSymbol;
 
     uint256 private numberOfTokenOwned;
+
+    bytes32 internal keyHash;
+    uint256 internal fee;
+    uint256 public randomResult;
 
     struct nftItem {
         uint256 tokenId;
@@ -75,18 +79,41 @@ contract EternalNFT is ERC721URIStorage, Ownable {
         'God'
     ];
 
-    constructor(address marketplaceAddress) ERC721("EternalNFT", "ENFT") {
+    /**
+     * Constructor inherits VRFConsumerBase
+     *
+     * Network: Rinkeby
+     * VRF Coordinator address:           0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B
+     * LINK token address:                0x01BE23585060835E02B77ef475b0Cc51aA1e0709
+     * Key Hash: 0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311
+     */
+    constructor(address marketplaceAddress, address _VRFCoordinator, address _LinkToken, bytes32 _keyhash, uint _fee)
+        VRFConsumerBase(_VRFCoordinator, _LinkToken)
+        ERC721("EternalNFT", "ENFT") {
+        
         contractAddress = marketplaceAddress;
         collectionName = name();
         collectionSymbol = symbol();
+
+        keyHash = _keyhash;
+        fee = _fee;
+    }
+
+    function getRandomNumber() public returns (bytes32 requestId) {
+        require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK - fill contract with faucet");
+        return requestRandomness(keyHash, fee);
+    }
+
+    function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
+        randomResult = randomness;
     }
 
 
     /// @notice Generates a random number using hash of the encoded imput string
     /// @param _input The string used in generating random number
     /// @return uint256 The random number generated
-    function random(string memory _input) internal pure returns(uint256) {
-        return uint256(keccak256(abi.encodePacked(_input)));
+    function random(string memory _input) internal view returns(uint256) {
+        return uint256(keccak256(abi.encodePacked(randomResult, _input)));
     }
 
 
