@@ -152,6 +152,20 @@ cd client
 npm run dev
 ```
 
+## Auto-Funding
+
+This Starter Kit is configured by default to attempt to auto-fund any newly deployed contract that uses Any-API or Chainlink VRF, to save having to manually fund them after each deployment. The amount in LINK to send as part of this process can be modified in the [Starter Kit Config](https://github.com/smartcontractkit/chainlink-hardhat-box/blob/main/helper-hardhat-config.js), and are configurable per network.
+
+| Parameter  | Description                                       | Default Value |
+| ---------- | :------------------------------------------------ | :------------ |
+| fundAmount | Amount of LINK to transfer when funding contracts | 1 LINK        |
+
+If you wish to deploy the smart contracts without performing the auto-funding, run the following command when doing your deployment:
+
+```bash
+npx hardhat deploy --tags main
+```
+
 ### Deploying and running against a local instance
 
 1. For deploying and running the dApp against a local instance run commands:
@@ -163,7 +177,7 @@ npx hardhat node
 2. This should create a local network with 19 accounts. Keep it running, and in another terminal run:
 
 ```
-npx hardhat run scripts/deploy.js --network localhost
+npx hardhat deploy --network localhost
 ```
 
 3. When the deployment is complete, the CLI should print out the addresses of the contracts that were deployed:
@@ -198,6 +212,29 @@ npm run dev
 ```
 
 After this you can run and test the dApp locally in your web browser.
+
+## Run
+
+The deployment output will give you the contract addresses as they are deployed. You can then use these contract addresses in conjunction with Hardhat tasks to perform operations on each contract
+
+### VRF Get a random number
+The VRFConsumer contract has two tasks, one to request a random number, and one to read the result of the random number request. This contract needs to be funded with link first:
+
+```bash
+npx hardhat fund-link --contract insert-contract-address-here --network network
+```
+
+Once it's funded, you can perform a VRF request with the request-random-number task:
+
+```bash
+npx hardhat request-random-number --contract insert-contract-address-here --network network
+```
+
+Once you have successfully made a request for a random number, you can see the result via the read-random-number task:
+
+```bash
+npx hardhat read-random-number --contract insert-contract-address-here --network network
+```
 
 ## Troubleshooting
 
