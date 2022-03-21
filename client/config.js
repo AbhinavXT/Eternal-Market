@@ -1,4 +1,4 @@
-export const nftMarketAddress = '0x29C24b895331CCfe81e5ff5155ee18EA8A4fb17d'
-export const nftContractAddress = '0x6CbE6d6bb4D9545928508938D3c9A2d80DF2dc5E'
+export const nftMarketAddress = "0x4b68B1D4deF454168737754549D52b4CD9ef3720"
+export const nftContractAddress = "0xb3705293B4fE99f7F0a455aC3aA236307Ef4Ae56"
 
 export default { nftMarketAddress, nftContractAddress }
